@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 void testCalcMedium(void);
-float calcMedium(int[], int);
+int calcMedium(int[], int);
+void shellSort(int[], int);
 
 int main (void) {
   testCalcMedium();
@@ -10,21 +11,34 @@ int main (void) {
 }
 
 void testCalcMedium(void) {
-  int array[] = { 0, 1, 2, 3, 4, 5, 6, 10, 30, 25 };
-  float medium = calcMedium(array, 10);
+  int array[] = { 0, 1, 2, 3, 4, 23, 6, 10, 30, 25, 5 };
+  int medium = calcMedium(array, 11);
 
-  printf("La media del vector es: %f\n", medium);
+  printf("La mediana del vector es: %d\n", medium);
 }
 
-float calcMedium(int data[], int dataLength) {
-  int total = 0;
+int calcMedium(int data[], int dataLength) {
+  int medium = dataLength / 2;
 
-  for (int i = 0; i < dataLength; i++) {
-    total += data[i];
+  shellSort(data, dataLength);
+
+  return data[medium];
+}
+
+void shellSort(int data[], int dataLength) {
+  int i, j, k, tmp;
+
+  for (i = dataLength / 2; i > 0; i = i / 2) {
+    for (j = i; j < dataLength; j++) {
+      for(k = j - i; k >= 0; k = k - i) {
+        if (data[k+i] <= data[k]) {
+          break;
+        } else {
+          tmp = data[k];
+          data[k] = data[k+i];
+          data[k+i] = tmp;
+        }
+      }
+    }
   }
-
-  float medium = (float) total /  (float) dataLength;
-
-  return medium;
 }
-
